@@ -9,13 +9,13 @@ Este curso está dividido en tres módulos.
   - Introducción al curso y motivación.
   - Instalación de herramientas de trabajo.
   - Repaso de teoría de probabilidad.
-  - Operaciones con factores.
   - Tarea 1.
   
 2. Redes Bayesianas.
   - Quiz clase 1.
   - Fundamentos:
       - Semántica y factorización.
+      - Operaciones con factores.
       - Flujo de influencia probabilística.
   - Independencia e independencia condicional.
   - Independencia en redes Bayesianas.
