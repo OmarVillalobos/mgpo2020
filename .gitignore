@@ -137,7 +137,7 @@ dmypy.json
 .pyre/
 
 # samiam
-samiam/
-samiam/*
+*/samiam/
+*/samiam/*
 
 # End of https://www.gitignore.io/api/linux,python,jupyternotebooks
