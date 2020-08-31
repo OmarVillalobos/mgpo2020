@@ -136,4 +136,8 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+# samiam
+samiam/
+samiam/*
+
 # End of https://www.gitignore.io/api/linux,python,jupyternotebooks
