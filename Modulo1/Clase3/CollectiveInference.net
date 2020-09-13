@@ -1,0 +1,149 @@
+net
+{
+	propagationenginegenerator1791944048146838126L = "edu.ucla.belief.approx.BeliefPropagationSettings@2f162111";
+	huginenginegenerator3061656038650325130L = "edu.ucla.belief.inference.JoinTreeSettings@d44fb72";
+	recoveryenginegenerator6944530267470113528l = "edu.ucla.util.SettingsImpl@5610fb1a";
+	node_size = (130 55);
+}
+
+node I_2
+{
+	states = ("dumb" "intelligent" );
+	position = (700 -158);
+	diagnosistype = "AUXILIARY";
+	ismapvariable = "false";
+	ID = "variable1";
+	label = "I(s2)";
+	excludepolicy = "include whole CPT";
+}
+node G_11
+{
+	states = ("bad" "normal" "high" );
+	position = (503 -287);
+	diagnosistype = "AUXILIARY";
+	DSLxSUBMODEL = "Root Submodel";
+	ismapvariable = "false";
+	ID = "variable2";
+	label = "G(c1,s1)";
+	excludepolicy = "include whole CPT";
+}
+node I_1
+{
+	states = ("dumb" "intelligent" );
+	position = (503 -159);
+	diagnosistype = "AUXILIARY";
+	DSLxSUBMODEL = "Root Submodel";
+	ismapvariable = "false";
+	ID = "variable1";
+	label = "I(s1)";
+	excludepolicy = "include whole CPT";
+}
+node G_14
+{
+	states = ("bad" "normal" "high" );
+	position = (1076 -297);
+	diagnosistype = "AUXILIARY";
+	ismapvariable = "false";
+	ID = "variable2";
+	label = "G(c1,s4)";
+	excludepolicy = "include whole CPT";
+}
+node D_1
+{
+	states = ("easy" "hard" );
+	position = (799 -432);
+	diagnosistype = "AUXILIARY";
+	DSLxSUBMODEL = "Root Submodel";
+	ismapvariable = "false";
+	ID = "variable0";
+	label = "D(c1)";
+	excludepolicy = "include whole CPT";
+}
+node I_3
+{
+	states = ("dumb" "intelligent" );
+	position = (879 -165);
+	diagnosistype = "AUXILIARY";
+	ismapvariable = "false";
+	ID = "variable1";
+	label = "I(s3)";
+	excludepolicy = "include whole CPT";
+}
+node G_13
+{
+	states = ("bad" "normal" "high" );
+	position = (879 -293);
+	diagnosistype = "AUXILIARY";
+	ismapvariable = "false";
+	ID = "variable2";
+	label = "G(c1,s3)";
+	excludepolicy = "include whole CPT";
+}
+node G_12
+{
+	states = ("bad" "normal" "high" );
+	position = (700 -291);
+	diagnosistype = "AUXILIARY";
+	ismapvariable = "false";
+	ID = "variable2";
+	label = "G(c1,s2)";
+	excludepolicy = "include whole CPT";
+}
+node I_4
+{
+	states = ("dumb" "intelligent" );
+	position = (1076 -164);
+	diagnosistype = "AUXILIARY";
+	ismapvariable = "false";
+	ID = "variable1";
+	label = "I(s4)";
+	excludepolicy = "include whole CPT";
+}
+potential ( I_2 | )
+{
+	data = (	0.7	0.3	);
+}
+potential ( G_11 | D_1 I_1 )
+{
+	data = (((	0.3	0.4	0.3	)
+		(	0.02	0.08	0.9	))
+		((	0.7	0.25	0.05	)
+		(	0.2	0.3	0.5	)));
+}
+potential ( I_1 | )
+{
+	data = (	0.7	0.3	);
+}
+potential ( G_14 | I_4 D_1 )
+{
+	data = (((	0.3	0.4	0.3	)
+		(	0.7	0.25	0.05	))
+		((	0.02	0.08	0.9	)
+		(	0.2	0.3	0.5	)));
+}
+potential ( D_1 | )
+{
+	data = (	0.6	0.4	);
+}
+potential ( I_3 | )
+{
+	data = (	0.7	0.3	);
+}
+potential ( G_13 | I_3 D_1 )
+{
+	data = (((	0.3	0.4	0.3	)
+		(	0.7	0.25	0.05	))
+		((	0.02	0.08	0.9	)
+		(	0.2	0.3	0.5	)));
+}
+potential ( G_12 | D_1 I_2 )
+{
+	data = (((	0.3	0.4	0.3	)
+		(	0.02	0.08	0.9	))
+		((	0.7	0.25	0.05	)
+		(	0.2	0.3	0.5	)));
+}
+potential ( I_4 | )
+{
+	data = (	0.7	0.3	);
+}
