@@ -1,0 +1,157 @@
+net
+{
+	propagationenginegenerator1791944048146838126L = "edu.ucla.belief.approx.BeliefPropagationSettings@13516e7";
+	recoveryenginegenerator6944530267470113528l = "edu.ucla.util.SettingsImpl@c644e4";
+	node_size = (130 55);
+}
+
+node age
+{
+	states = ("state0" "state1" "state2" );
+	position = (519 -63);
+	diagnosistype = "AUXILIARY";
+	DSLxSUBMODEL = "Root Submodel";
+	ismapvariable = "false";
+	ID = "variable0";
+	label = "age";
+	excludepolicy = "include whole CPT";
+}
+node reliable
+{
+	states = ("state0" "state1" );
+	position = (402 -351);
+	diagnosistype = "AUXILIARY";
+	DSLxSUBMODEL = "Root Submodel";
+	ismapvariable = "false";
+	ID = "variable1";
+	label = "reliable";
+	excludepolicy = "include whole CPT";
+}
+node pay_hist
+{
+	states = ("state0" "state1" "state2" );
+	position = (390 -227);
+	diagnosistype = "AUXILIARY";
+	DSLxSUBMODEL = "Root Submodel";
+	ismapvariable = "false";
+	ID = "variable6";
+	label = "pay_hist";
+	excludepolicy = "include whole CPT";
+}
+node assets
+{
+	states = ("state0" "state1" "state2" );
+	position = (769 -212);
+	diagnosistype = "AUXILIARY";
+	DSLxSUBMODEL = "Root Submodel";
+	ismapvariable = "false";
+	ID = "variable4";
+	label = "assets";
+	excludepolicy = "include whole CPT";
+}
+node credit_w
+{
+	states = ("state0" "state1" );
+	position = (359 -515);
+	diagnosistype = "AUXILIARY";
+	DSLxSUBMODEL = "Root Submodel";
+	ismapvariable = "false";
+	ID = "variable7";
+	label = "credit_w";
+	excludepolicy = "include whole CPT";
+}
+node future_income
+{
+	states = ("state0" "state1" );
+	position = (605 -370);
+	diagnosistype = "AUXILIARY";
+	DSLxSUBMODEL = "Root Submodel";
+	ismapvariable = "false";
+	ID = "variable2";
+	label = "future_income";
+	excludepolicy = "include whole CPT";
+}
+node income
+{
+	states = ("state0" "state1" "state2" );
+	position = (721 -67);
+	diagnosistype = "AUXILIARY";
+	DSLxSUBMODEL = "Root Submodel";
+	ismapvariable = "false";
+	ID = "variable3";
+	label = "income";
+	excludepolicy = "include whole CPT";
+}
+node debt_ratio
+{
+	states = ("state0" "state1" );
+	position = (289 -66);
+	diagnosistype = "AUXILIARY";
+	DSLxSUBMODEL = "Root Submodel";
+	ismapvariable = "false";
+	ID = "variable5";
+	label = "debt_ratio";
+	excludepolicy = "include whole CPT";
+}
+potential ( age | )
+{
+	data = (	0.2	0.3	0.5	);
+}
+potential ( reliable | age pay_hist )
+{
+	data = (((	0.6	0.4	)
+		(	0.4	0.6	)
+		(	0.2	0.8	))
+		((	0.7	0.3	)
+		(	0.5	0.5	)
+		(	0.3	0.7	))
+		((	0.9	0.1	)
+		(	0.7	0.3	)
+		(	0.4	0.6	)));
+}
+potential ( pay_hist | age debt_ratio )
+{
+	data = (((	0.2	0.5	0.3	)
+		(	0.1	0.2	0.7	))
+		((	0.6	0.3	0.1	)
+		(	0.2	0.3	0.5	))
+		((	0.6	0.3	0.1	)
+		(	0.3	0.4	0.3	)));
+}
+potential ( assets | income )
+{
+	data = ((	0.5	0.3	0.2	)
+		(	0.3	0.5	0.2	)
+		(	0.2	0.3	0.5	));
+}
+potential ( credit_w | reliable debt_ratio future_income )
+{
+	data = ((((	0.9	0.1	)
+		(	0.7	0.3	))
+		((	0.8	0.2	)
+		(	0.4	0.6	)))
+		(((	0.7	0.3	)
+		(	0.4	0.6	))
+		((	0.3	0.7	)
+		(	0.1	0.9	))));
+}
+potential ( future_income | assets income )
+{
+	data = (((	0.9	0.1	)
+		(	0.8	0.2	)
+		(	0.7	0.3	))
+		((	0.6	0.4	)
+		(	0.3	0.7	)
+		(	0.4	0.6	))
+		((	0.4	0.6	)
+		(	0.2	0.8	)
+		(	0.1	0.9	)));
+}
+potential ( income | )
+{
+	data = (	0.4	0.4	0.2	);
+}
+potential ( debt_ratio | )
+{
+	data = (	0.7	0.3	);
+}
