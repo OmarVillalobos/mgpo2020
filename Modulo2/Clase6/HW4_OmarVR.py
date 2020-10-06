@@ -1,4 +1,7 @@
 from pgmpy.factors.discrete import DiscreteFactor
+from pgmpy.inference import VariableElimination
+from pgmpy.factors.discrete import TabularCPD
+from pgmpy.models import BayesianModel
 from numpy import prod
 
 def variable_elimination(factors, query_variables, evidence=None, elimination_order=None):
@@ -93,35 +96,136 @@ def variable_elimination(factors, query_variables, evidence=None, elimination_or
     
     # 3. Multiply the remaining factors
     # ---------------------------- Your code goes here! ----------------------------------
-    return (print(prod(factors_update).normalize()))
+    factors_update = prod(factors_update)
+    #factors_update.normalize()
+    return (factors_update)
     # ------------------------------------------------------------------------------------
 
 # Test
 # Define factors
-phi_L = DiscreteFactor(variables=['L'],
-                       cardinality=[2],
-                       values=[0.4, 0.6])
-phi_Q = DiscreteFactor(variables=['Q'],
-                       cardinality=[3],
-                       values=[0.2, 0.5, 0.3])
-phi_C = DiscreteFactor(variables=['C', 'L', 'Q'],
-                       cardinality=[2, 2, 3],
-                       values=[0.95, 0.4, 0.4, 0.9, 0.4, 0.2,
-                               0.05, 0.6, 0.6, 0.1, 0.6, 0.8])
-phi_N = DiscreteFactor(variables=['N', 'L', 'C'],
-                       cardinality=[2, 2, 2],
-                       values=[0.4, 0.9, 0.2, 0.4,
-                               0.6, 0.1, 0.8, 0.6])
+# phi_L = DiscreteFactor(variables=['L'],
+#                        cardinality=[2],
+#                        values=[0.4, 0.6])
+# phi_Q = DiscreteFactor(variables=['Q'],
+#                        cardinality=[3],
+#                        values=[0.2, 0.5, 0.3])
+# phi_C = DiscreteFactor(variables=['C', 'L', 'Q'],
+#                        cardinality=[2, 2, 3],
+#                        values=[0.95, 0.4, 0.4, 0.9, 0.4, 0.2,
+#                                0.05, 0.6, 0.6, 0.1, 0.6, 0.8])
+# phi_N = DiscreteFactor(variables=['N', 'L', 'C'],
+#                        cardinality=[2, 2, 2],
+#                        values=[0.4, 0.9, 0.2, 0.4,
+#                                0.6, 0.1, 0.8, 0.6])
 
-                               # Joint probability
-P_LQCN = phi_L * phi_Q * phi_C * phi_N
+#                                # Joint probability
+# P_LQCN = phi_L * phi_Q * phi_C * phi_N
 
-# P(N)
-P_QCN = P_LQCN.marginalize(variables=['L'], inplace=False)
-# print(P_QCN)
 
-P_QN = P_QCN.marginalize(variables = ['C'], inplace=False)
-# print(P_QN)
+# pgmpy outcome
+# restaurant = BayesianModel([('L', 'C'), ('Q', 'C'), ('L', 'N'), ('C', 'N')])
+# P_L = TabularCPD(variable='L',
+#                  variable_card=2,
+#                  values=[[0.4], [0.6]])
+# P_Q = TabularCPD(variable='Q',
+#                  variable_card=3,
+#                  values=[[0.2], [0.5], [0.3]])
+# P_CgivenLQ = TabularCPD(variable='C',
+#                         evidence=['L', 'Q'],
+#                         variable_card=2,
+#                         evidence_card=[2, 3],
+#                         values=[[0.95, 0.4, 0.4, 0.9, 0.4, 0.2],
+#                                 [0.05, 0.6, 0.6, 0.1, 0.6, 0.8]])
+# P_NgivenLC = TabularCPD(variable='N',
+#                         evidence=['L', 'C'],
+#                         variable_card=2,
+#                         evidence_card=[2, 2],
+#                         values=[[0.4, 0.9, 0.2, 0.4],
+#                                 [0.6, 0.1, 0.8, 0.6]])
 
-# testing
-variable_elimination([phi_L,phi_Q,phi_C,phi_N],['N'], {'L':0}, ['Q','C'])
+# restaurant.add_cpds(P_L, P_Q, P_CgivenLQ, P_NgivenLC)
+# restaurant.check_model()
+# restaurant_inference = VariableElimination(restaurant)
+# P_N1 = restaurant_inference.query(variables=['N'])
+# print(P_N1)
+
+# factors = []
+# for i in restaurant.get_cpds():
+#         factors.append(i.to_factor())
+
+# variable_elimination(factors,['N']) # [P_L,P_Q,P_CgivenLQ,P_NgivenLC]
+
+
+# Perform inference over the student example
+# Definimos el esqueleto de la red mediante los arcos
+model = BayesianModel([('D', 'C'), ('I', 'C'), ('I', 'P'), ('C', 'R')])
+# Definimos distribución condicional de D
+cpd_d = TabularCPD(variable='D',
+                   variable_card=2,
+                   values=[[0.6], [0.4]])
+# Definimos distribución condicional de I
+cpd_i = TabularCPD(variable='I',
+                   variable_card=2,
+                   values=[[0.7], [0.3]])
+                   # Definimos distribución condicional de C
+cpd_c = TabularCPD(variable='C',
+                   variable_card=3,
+                   evidence=['I', 'D'],
+                   evidence_card=[2, 2],
+                   values=[[0.3, 0.7, 0.02, 0.2],
+                           [0.4, 0.25, 0.08, 0.3],
+                           [0.3, 0.05, 0.9, 0.5]])
+# Definimos distribución condicional de P
+cpd_p = TabularCPD(variable='P',
+                   variable_card=2,
+                   evidence=['I'],
+                   evidence_card=[2],
+                   values=[[0.95, 0.2],
+                           [0.05, 0.8]])
+# Definimos distribución condicional de R
+cpd_r = TabularCPD(variable='R',
+                   variable_card=2,
+                   evidence=['C'],
+                   evidence_card=[3],
+                   values=[[0.99, 0.4, 0.1],
+                           [0.01, 0.6, 0.9]])
+
+model.add_cpds(cpd_d)
+model.add_cpds(cpd_i)
+model.add_cpds(cpd_c)
+model.add_cpds(cpd_r)
+model.add_cpds(cpd_p)
+model.check_model()
+
+factors = []
+for i in model.get_cpds():
+        factors.append(i.to_factor())
+
+# 1. Causal reasoning
+# P_r1 = variable_elimination(factors = factors,query_variables=['R'],evidence={'R': 1})
+# print(P_r1)
+
+# P_r1giveni0 = variable_elimination(factors = factors,query_variables=['R'],evidence={'R': 1, "I": 0 })
+# print(P_r1giveni0)
+
+# P_r1giveni0d0 = variable_elimination(factors = factors,query_variables=['R'],evidence={'R': 1, "I": 0 , "D": 0})
+# print(P_r1giveni0d0)
+
+# 2. Evidential reasoning
+# P_d1 = variable_elimination(factors = factors,query_variables=['D'],evidence={'D': 1})
+# print(P_d1)
+
+# P_d1gc0 = variable_elimination(factors = factors,query_variables=['D'],evidence={'D': 1, 'C': 0})
+# print(P_d1gc0)
+
+# P_i1 = variable_elimination(factors = factors,query_variables=['I'],evidence={'I': 1})
+# print(P_i1)
+
+# P_i1gc0 = variable_elimination(factors = factors,query_variables=['I'],evidence={'I': 1, 'C': 0})
+# print(P_i1gc0)
+
+# 3. Intercausal reasoning
+P_i1gc0d1 = variable_elimination(factors = factors,query_variables=['I'],evidence={'I': 1, 'C': 0, 'D': 1})
+print(P_i1gc0d1)
+
+
